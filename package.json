@@ -15,6 +15,7 @@
   "dependencies": {
     "@adiwajshing/keyed-db": "^0.2.4",
     "@whiskeysockets/baileys": "^6.2.1",
+    "express": "^4.18.2",
     "fluent-ffmpeg": "^2.1.2",
     "jimp": "^0.16.13",
     "link-preview-js": "^3.0.4",

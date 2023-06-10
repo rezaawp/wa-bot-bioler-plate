@@ -9,7 +9,7 @@ const P = require("pino");
 
 const logging = require("./lib/logging");
 
-const connectReybotWhatsapp = async () => {
+const connectRkwpBot = async () => {
   let auth;
   let waWeb;
   try {
@@ -19,14 +19,20 @@ const connectReybotWhatsapp = async () => {
     logging("error", "Session", err);
   }
   const { state, saveCreds } = auth;
+
   const rkwpbot = makeWASocket({
     version: waWeb.version,
     printQRInTerminal: true,
     logger: P({ level: "silent" }),
-    browser: ["ReybotVIP", "Firefox", "2.0.0"],
+    browser: ["RKWP BOT", "Firefox", "2.0.0"],
     auth: state,
     generateHighQualityLinkPreview: true,
   });
+
+  rkwpbot.ev.on("from.api", (api) => {
+    require("./app/api/handler/listen")(rkwpbot, api);
+  });
+
   rkwpbot.ev.on("messages.upsert", (m) => {
     const msg = m.messages[0];
     if (msg.key.remoteJid === "status@broadcast") return;
@@ -35,7 +41,8 @@ const connectReybotWhatsapp = async () => {
       rkwpbot,
       msg,
       isGroup,
-      connectReybotWhatsapp,
+      connectRkwpBot,
+      m,
     });
   });
   rkwpbot.ev.on("group-participants.update", (g) => {
@@ -46,14 +53,15 @@ const connectReybotWhatsapp = async () => {
   });
   rkwpbot.ev.on("creds.update", saveCreds);
   rkwpbot.ev.on("connection.update", async ({ connection }) => {
-    if (connection === "close") connectReybotWhatsapp();
+    if (connection === "close") connectRkwpBot();
     if (connection === "connecting") {
       logging("info", "Connection", "Connecting");
     }
     if (connection === "open") {
       open(rkwpbot);
+      require("./app/api")({ rkwpbot });
     }
   });
 };
 
-connectReybotWhatsapp();
+connectRkwpBot();
