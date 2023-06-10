@@ -1,9 +1,9 @@
 const logging = require("../lib/logging");
 
-module.exports = ({ reybot, c }) => {/*
+module.exports = ({ rkwpbot, c }) => {/*
   const call = c[0];
   if (call.status === "offer") {
-    reybot.rejectCall(call.id, call.from);
+    rkwpbot.rejectCall(call.id, call.from);
   }*/
   return;
 };

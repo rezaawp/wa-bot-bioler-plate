@@ -19,7 +19,7 @@ const connectReybotWhatsapp = async () => {
     logging("error", "Session", err);
   }
   const { state, saveCreds } = auth;
-  const reybot = makeWASocket({
+  const rkwpbot = makeWASocket({
     version: waWeb.version,
     printQRInTerminal: true,
     logger: P({ level: "silent" }),
@@ -27,31 +27,31 @@ const connectReybotWhatsapp = async () => {
     auth: state,
     generateHighQualityLinkPreview: true,
   });
-  reybot.ev.on("messages.upsert", (m) => {
+  rkwpbot.ev.on("messages.upsert", (m) => {
     const msg = m.messages[0];
     if (msg.key.remoteJid === "status@broadcast") return;
     const isGroup = msg.key.remoteJid.endsWith("@g.us");
     require("./handler/messages")({
-      reybot,
+      rkwpbot,
       msg,
       isGroup,
       connectReybotWhatsapp,
     });
   });
-  reybot.ev.on("group-participants.update", (g) => {
-    require("./handler/groups")({ reybot, g });
+  rkwpbot.ev.on("group-participants.update", (g) => {
+    require("./handler/groups")({ rkwpbot, g });
   });
-  reybot.ev.on("call", (c) => {
-    require("./handler/calls")({ reybot, c });
+  rkwpbot.ev.on("call", (c) => {
+    require("./handler/calls")({ rkwpbot, c });
   });
-  reybot.ev.on("creds.update", saveCreds);
-  reybot.ev.on("connection.update", async ({ connection }) => {
+  rkwpbot.ev.on("creds.update", saveCreds);
+  rkwpbot.ev.on("connection.update", async ({ connection }) => {
     if (connection === "close") connectReybotWhatsapp();
     if (connection === "connecting") {
       logging("info", "Connection", "Connecting");
     }
     if (connection === "open") {
-      open(reybot);
+      open(rkwpbot);
     }
   });
 };
