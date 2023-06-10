@@ -45,6 +45,7 @@ module.exports = async ({
         : type === "extendedTextMessage"
         ? bot.message.extendedTextMessage.text
         : "";
+        
     const prefix = /^[./~.#%^&=\,;:()z]/.test(body)
       ? body.match(/^[./~.#%^&=\,;:()z]/gi)
       : "#";
