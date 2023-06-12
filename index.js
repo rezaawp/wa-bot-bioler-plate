@@ -8,6 +8,8 @@ const { join } = require("path");
 const P = require("pino");
 
 const logging = require("./lib/logging");
+const findFitur = require("./lib/findFitur");
+const allFiturs = require("./lib/allFiturs");
 
 const connectRkwpBot = async () => {
   let auth;

@@ -1,10 +1,23 @@
 const express = require("express");
-
 const app = express();
+const morgan = require("morgan");
+const cors = require("cors");
+const db = require("./database/models");
 
 const PORT = 3000;
 
 const expressJsApp = ({ rkwpbot }) => {
+  app.use(morgan("dev"));
+  app.use(express.json());
+  app.use(
+    express.urlencoded({
+      extended: true,
+    })
+  );
+  app.use(cors({ origin: "*" }));
+
+  require("./routes/api.route")(app);
+
   app.get("/api/send", (req, res) => {
     const { to, message } = req.query;
     // const prefixRegex =
@@ -28,8 +41,12 @@ const expressJsApp = ({ rkwpbot }) => {
       .status(200);
   });
 
-  app.listen(PORT, () => {
-    console.log("Express running in port: " + PORT);
+  db.sequelize.sync().then(() => {
+    // create_roles();
+    app.listen(PORT, () => {
+      console.log("Express running in port: " + PORT);
+    });
+    // app.listen(port, () => console.log(title + " run on " + baseUrl));
   });
 };
 

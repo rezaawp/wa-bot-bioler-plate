@@ -3,10 +3,14 @@ const logging = require("../lib/logging");
 const { readFileSync, writeFileSync, unlinkSync } = require("fs");
 const logger = require("pino");
 const { join } = require("path");
+const path = require("path");
+const basename = path.basename(__filename);
+const fs = require("fs");
 
 const saveUsers = require("../lib/saveUsers");
 const config = require("../app/config");
 const rootDir = require("../lib/rootDir");
+const allFiturs = require("../lib/allFiturs");
 
 module.exports = async ({
   rkwpbot,
@@ -17,126 +21,13 @@ module.exports = async ({
 }) => {
   const bot = m.messages[0];
   try {
-    // Start Properti
-    const type = Object.keys(m.messages[0].message)[0];
-    const body =
-      type === "conversation"
-        ? bot.message.conversation
-        : type == "imageMessage"
-        ? bot.message.imageMessage.caption
-        : type == "videoMessage"
-        ? bot.message.videoMessage.caption
-        : type == "extendedTextMessage"
-        ? bot.message.extendedTextMessage.text
-        : type == "buttonsResponseMessage"
-        ? bot.message.buttonsResponseMessage.selectedButtonId
-        : type == "listResponseMessage"
-        ? bot.message.listResponseMessage.singleSelectReply.selectedRowId
-        : type == "templateButtonReplyMessage"
-        ? bot.message.templateButtonReplyMessage.selectedId
-        : type === "messageContextInfo"
-        ? bot.message.buttonsResponseMessage?.selectedButtonId ||
-          bot.message.listResponseMessage?.singleSelectReply.selectedRowId ||
-          bot.text
-        : "";
-    const budy =
-      type === "conversation"
-        ? bot.message.conversation
-        : type === "extendedTextMessage"
-        ? bot.message.extendedTextMessage.text
-        : "";
-        
-    const prefix = /^[./~.#%^&=\,;:()z]/.test(body)
-      ? body.match(/^[./~.#%^&=\,;:()z]/gi)
-      : "#";
-    const isCommand = body.startsWith(prefix);
-    const command = isCommand
-      ? body.slice(1).trim().split(/ +/).shift().toLowerCase()
-      : null;
-    const isGroup = bot.key.remoteJid.endsWith("@g.us");
-    const from = bot.key.remoteJid;
-    const sender = isGroup
-      ? bot.key.participant
-        ? bot.key.participant
-        : bot.participant
-      : bot.key.remoteJid;
-    const content = JSON.stringify(bot.message);
-    const args = body.trim().split(/ +/).slice(1);
-    const q = args.join(" ");
-    const pushname = bot.pushName;
-    const rkwp = {
-      key: {
-        fromMe: false,
-        participant: `${config.authorNumber}@s.whatsapp.net`,
-        ...(from ? { remoteJid: "status@broadcast" } : {}),
-      },
-      message: { liveLocationMessage: { caption: config.authorName } },
-    };
-
-    // console.log({ type, bot });
-    // console.log({ locationMessage: bot.message.locationMessage }); // menampilkan longitude lokasi
-    const isMedia =
-      type === "imageMessage" ||
-      type === "videoMessage" ||
-      type === "stickerMessage" ||
-      type === "audioMessage";
-    const isLocationMessage = type === "locationMessage";
-    const isQuotedImage =
-      type === "extendedTextMessage" && content.includes("imageMessage");
-    const isQuotedVideo =
-      type === "extendedTextMessage" && content.includes("videoMessage");
-    const isQuotedSticker =
-      type === "extendedTextMessage" && content.includes("stickerMessage");
-    const isQuotedAudio =
-      type === "extendedTextMessage" && content.includes("audioMessage");
-    const respon = (a, b) => {
-      rkwpbot.sendMessage(from, { text: a, mentions: b }, { quoted: rkwp });
-    };
-
-    // async function shortUrl(url) {
-    // return await (await fetch(`https://tinyurl.com/api-create.php?url=${url}`)).text()
-    // }
-    const isUserReplyLocationMessage = bot.message.extendedTextMessage
-      ?.contextInfo?.quotedMessage?.locationMessage
-      ? true
-      : false;
-
-    const dataMessage = {
-      rkwpbot,
-      m,
-      bot,
-      type,
-      body,
-      budy,
-      prefix,
-      isCommand,
-      command,
-      isGroup,
-      rkwp,
-      pushname,
-      q,
-      args,
-      content,
-      sender,
-      from,
-      isMedia,
-      isQuotedImage,
-      isQuotedVideo,
-      isQuotedSticker,
-      isQuotedAudio,
-      isLocationMessage,
-    };
-    // End Properti
-
-    if (!command) return;
-    else require(join(rootDir, `app/fiturs/${command}.js`))(dataMessage);
-
     const users = JSON.parse(
       readFileSync(join(__dirname, "../database/users.json"))
     );
     const contacts = JSON.parse(
       readFileSync(join(__dirname, "../database/contacts.json"))
     );
+
     if (isGroup) {
       /*///////
        * {*} Only fromMe {*}
@@ -145,7 +36,7 @@ module.exports = async ({
         const userId = msg.key.participant;
         const fromMe = msg.key.fromMe;
         const pushName = msg.pushName;
-        saveUsers({ userId });
+        saveUsers({ userId, name: bot.pushName });
         const groupId = msg.key.remoteJid;
         let metadataGroup;
         let groupParticipants;
@@ -739,7 +630,7 @@ module.exports = async ({
     } else {
       if (msg.key) {
         const userId = msg.key.remoteJid;
-        saveUsers({ userId });
+        saveUsers({ userId, name: bot.pushName });
         const pushName = msg.pushName;
         const fromMe = msg.key.fromMe;
         if (msg.message) {
@@ -747,7 +638,142 @@ module.exports = async ({
             ? msg.message.extendedTextMessage.text
             : msg.message.conversation;
 
-          require("./me/fitur.me")({ rkwpbot, msg, msgTxt });
+          // require("./me/fitur.me")({ rkwpbot, msg, msgTxt });
+          // Start Properti
+          const type = Object.keys(m.messages[0].message)[0];
+          const body =
+            type === "conversation"
+              ? bot.message.conversation
+              : type == "imageMessage"
+              ? bot.message.imageMessage.caption
+              : type == "videoMessage"
+              ? bot.message.videoMessage.caption
+              : type == "extendedTextMessage"
+              ? bot.message.extendedTextMessage.text
+              : type == "buttonsResponseMessage"
+              ? bot.message.buttonsResponseMessage.selectedButtonId
+              : type == "listResponseMessage"
+              ? bot.message.listResponseMessage.singleSelectReply.selectedRowId
+              : type == "templateButtonReplyMessage"
+              ? bot.message.templateButtonReplyMessage.selectedId
+              : type === "messageContextInfo"
+              ? bot.message.buttonsResponseMessage?.selectedButtonId ||
+                bot.message.listResponseMessage?.singleSelectReply
+                  .selectedRowId ||
+                bot.text
+              : "";
+          const budy =
+            type === "conversation"
+              ? bot.message.conversation
+              : type === "extendedTextMessage"
+              ? bot.message.extendedTextMessage.text
+              : "";
+
+          const prefix = /^[./~.#%^&=\,;:()z]/.test(body)
+            ? body.match(/^[./~.#%^&=\,;:()z]/gi)
+            : "#";
+          const isCommand = body.startsWith(prefix);
+          const command = isCommand
+            ? body.slice(1).trim().split(/ +/).shift().toLowerCase()
+            : null;
+          console.log({
+            command,
+            body,
+          });
+          const isGroup = bot.key.remoteJid.endsWith("@g.us");
+          const from = bot.key.remoteJid;
+          const sender = isGroup
+            ? bot.key.participant
+              ? bot.key.participant
+              : bot.participant
+            : bot.key.remoteJid;
+          const content = JSON.stringify(bot.message);
+          const args = body.trim().split(/ +/).slice(1);
+          const q = args.join(" ");
+          const pushname = bot.pushName;
+          const rkwp = {
+            key: {
+              fromMe: false,
+              participant: `${config.authorNumber}@s.whatsapp.net`,
+              ...(from ? { remoteJid: "status@broadcast" } : {}),
+            },
+            message: { liveLocationMessage: { caption: config.authorName } },
+          };
+
+          // console.log({ type, bot });
+          // console.log({ locationMessage: bot.message.locationMessage }); // menampilkan longitude lokasi
+          const isMedia =
+            type === "imageMessage" ||
+            type === "videoMessage" ||
+            type === "stickerMessage" ||
+            type === "audioMessage";
+          const isLocationMessage = type === "locationMessage";
+          const isQuotedImage =
+            type === "extendedTextMessage" && content.includes("imageMessage");
+          const isQuotedVideo =
+            type === "extendedTextMessage" && content.includes("videoMessage");
+          const isQuotedSticker =
+            type === "extendedTextMessage" &&
+            content.includes("stickerMessage");
+          const isQuotedAudio =
+            type === "extendedTextMessage" && content.includes("audioMessage");
+          const respon = (a, b) => {
+            rkwpbot.sendMessage(
+              from,
+              { text: a, mentions: b },
+              { quoted: rkwp }
+            );
+          };
+
+          // async function shortUrl(url) {
+          // return await (await fetch(`https://tinyurl.com/api-create.php?url=${url}`)).text()
+          // }
+          const isUserReplyLocationMessage = bot.message.extendedTextMessage
+            ?.contextInfo?.quotedMessage?.locationMessage
+            ? true
+            : false;
+
+          const dataMessage = {
+            rkwpbot,
+            m,
+            bot,
+            type,
+            body,
+            budy,
+            prefix,
+            isCommand,
+            command,
+            isGroup,
+            rkwp,
+            pushname,
+            q,
+            args,
+            content,
+            sender,
+            from,
+            isMedia,
+            isQuotedImage,
+            isQuotedVideo,
+            isQuotedSticker,
+            isQuotedAudio,
+            isLocationMessage,
+          };
+          // End Properti
+
+          if (!command) return;
+
+          const fiturs = allFiturs();
+
+          // console.log(">>>! fiturs nihhh = ", fiturs);
+
+          for (const fitur of fiturs) {
+            if (fitur.name === command) {
+              require(join(rootDir, `app/fiturs/${fitur.id}_${command}.js`))(
+                dataMessage
+              );
+              require("./fiturs/data.fitur")(dataMessage);
+            }
+          }
         }
       }
     }

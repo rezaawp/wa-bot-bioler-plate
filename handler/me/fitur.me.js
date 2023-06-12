@@ -11,6 +11,16 @@ module.exports = async ({ rkwpbot, msg, msgTxt, connectReybotWhatsapp }) => {
    * {*} Message Type Text {*}
    */ //*/
 
+  const groupId = msg.key.remoteJid;
+  let metadataGroup;
+  let groupParticipants;
+  try {
+    metadataGroup = await rkwpbot.groupMetadata(groupId);
+    groupParticipants = metadataGroup.participants.map((part) => part.id);
+  } catch (err) {
+    logging("error", "Error Get Metadata Group", err);
+  }
+
   const users = JSON.parse(readFileSync(join(rootDir, "database/users.json")));
   const contacts = JSON.parse(
     readFileSync(join(rootDir, "database/contacts.json"))
@@ -52,6 +62,30 @@ module.exports = async ({ rkwpbot, msg, msgTxt, connectReybotWhatsapp }) => {
 
           * {*} Start Push Contact {*}
           */ //*/
+
+    const regexInfo = new RegExp(/^\.Info\b/i);
+    if (regexInfo.test(msgTxt)) {
+      if (!fromMe) return;
+      logging("info", `Get Message`, msgTxt);
+      try {
+        const templateText = `*ReybotVIP ヅ* | Group info\n\n*Group Name :* ${
+          metadataGroup.subject
+        }\n*Group ID :* ${metadataGroup.id.split("@")[0]}\n*Group Owner :* +${
+          metadataGroup.owner.split("@")[0]
+        }\n*Total Member Group :* ${groupParticipants.length}`;
+        await reybot.sendMessage(
+          groupId,
+          {
+            text: templateText,
+            mentions: [config.authorNumber + "@s.whatsapp.net"],
+          },
+          { qouted: msg }
+        );
+      } catch (err) {
+        logging("error", "Error get Info Group", err);
+      }
+    }
+
     const regexPushCont = new RegExp(/^\.pushCont(act)?\s/i);
     if (regexPushCont.test(msgTxt)) {
       if (!fromMe) return;
