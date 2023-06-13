@@ -1,0 +1,70 @@
+#!/bin/bash
+
+
+directory_fitur="$(pwd)/app/fiturs"  # Ganti dengan path direktori yang ingin Anda hitung
+
+# Menggunakan ls untuk mendapatkan daftar file dalam satu baris
+file_list=$(ls -1 "$directory_fitur")
+
+# Menghitung jumlah file dengan menghitung jumlah baris
+file_count=$(echo "$file_list" | wc -l)
+
+# Mendapatkan nama file dari argumen
+file_name=$1
+
+prefix_file=""
+if [ "$file_count" -lt 10 ]; then
+  prefix_file="000$file_count"
+elif [ "$file_count" -lt 100 ]; then
+  prefix_file="00$file_count"
+elif [ "$file_count" -lt 1000 ]; then
+  prefix_file="0$file_count"
+fi
+
+
+# Mengecek apakah argumen nama file sudah ada
+if [ -z "$file_name" ]; then
+  echo "Nama file tidak diberikan."
+  exit 1
+fi
+
+# Menggabungkan current directory dengan nama file
+file_path="$directory_fitur/${prefix_file}_${file_name}.js"
+
+# Membuat file dengan konten yang diinginkan
+echo "const logging = require('../../lib/logging');
+module.exports = async ({
+  rkwpbot,
+  m,
+  bot,
+  type,
+  body,
+  budy,
+  prefix,
+  isCommand,
+  command,
+  isGroup,
+  rkwp,
+  pushname,
+  q,
+  args,
+  content,
+  sender,
+  from,
+  isMedia,
+  isQuotedImage,
+  isQuotedVideo,
+  isQuotedSticker,
+  isQuotedAudio,
+  isLocationMessage,
+}) => {
+  try {
+    return await rkwpbot.sendMessage(from, {
+      text: 'hello world',
+    });
+  } catch (e) {
+    logging('error', 'ERROR FITUR ${file_name}', e);
+  }
+};" > "$file_path"
+
+echo "File $file_name berhasil dibuat di $file_path"

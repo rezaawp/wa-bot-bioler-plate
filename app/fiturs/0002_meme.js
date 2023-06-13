@@ -1,3 +1,4 @@
+const logging = require('../../lib/logging');
 module.exports = async ({
   rkwpbot,
   m,
@@ -24,14 +25,10 @@ module.exports = async ({
   isLocationMessage,
 }) => {
   try {
-    console.log(
-      "ini adalah fitur tes, dan ini perintah command nya = " + command
-    );
-
-    await rkwpbot.sendMessage(from, {
-      text: "hai " + pushname,
+    return await rkwpbot.sendMessage(from, {
+      text: 'hello world',
     });
   } catch (e) {
-    console.log(`ada error di fitur ${command} =  ${e}`);
+    logging('error', 'ERROR FITUR meme', e);
   }
 };

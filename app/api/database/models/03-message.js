@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Message.init(
     {
-      message: DataTypes.STRING,
+      message: DataTypes.JSON,
       user_id: {
         type: DataTypes.STRING,
         references: {
@@ -22,12 +22,13 @@ module.exports = (sequelize, DataTypes) => {
           key: "phone_number",
         },
       },
-      fitur_id: {
+    fitur_id: {
         type: DataTypes.STRING,
         references: {
           model: "Fiturs",
           key: "id",
         },
+        onDelete: "SET NULL",
       },
       date: DataTypes.DATE,
     },

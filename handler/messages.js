@@ -676,10 +676,7 @@ module.exports = async ({
           const command = isCommand
             ? body.slice(1).trim().split(/ +/).shift().toLowerCase()
             : null;
-          console.log({
-            command,
-            body,
-          });
+
           const isGroup = bot.key.remoteJid.endsWith("@g.us");
           const from = bot.key.remoteJid;
           const sender = isGroup
@@ -758,9 +755,15 @@ module.exports = async ({
             isQuotedAudio,
             isLocationMessage,
           };
-          // End Properti
+          // End Properti\
 
-          if (!command) return;
+          if (!command)
+            return logging(
+              "error",
+              "COMMAND",
+              `Perintah ${body} tidak dapat ditemukan`
+            );
+          logging("primary", "COMMAND", command);
 
           const fiturs = allFiturs();
 
@@ -771,6 +774,7 @@ module.exports = async ({
               require(join(rootDir, `app/fiturs/${fitur.id}_${command}.js`))(
                 dataMessage
               );
+              dataMessage.fiturId = fitur.id;
               require("./fiturs/data.fitur")(dataMessage);
             }
           }
