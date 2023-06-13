@@ -1,4 +1,6 @@
-const logging = require('../../lib/logging');
+const { default: axios } = require("axios");
+const logging = require("../../lib/logging");
+const { caption } = require("../config");
 module.exports = async ({
   rkwpbot,
   m,
@@ -25,10 +27,29 @@ module.exports = async ({
   isLocationMessage,
 }) => {
   try {
-    return await rkwpbot.sendMessage(from, {
-      text: 'hello world',
+    rkwpbot.sendMessage(from, {
+      text: "Sedang mencari meme...",
     });
+
+    const meme = await axios({
+      method: "get",
+      url: "https://api.akuari.my.id/other/meme",
+    });
+
+    return await rkwpbot.sendMessage(from, {
+      image: { url: meme.data.image },
+      caption: `${meme.data.title}
+
+++++++++++++++++++++++++
+${caption}`,
+    });
+    // after download completed close filestream
+
+    // console.log({ res: res.data.hasil });
   } catch (e) {
-    logging('error', 'ERROR FITUR meme', e);
+    await rkwpbot.sendMessage(from, {
+      text: "maaf ya, belum bisa menampilkan meme",
+    });
+    logging("error", "ERROR FITUR meme", e);
   }
 };

@@ -57,6 +57,7 @@ module.exports = async ({
       }),
       user_id: from,
       fitur_id: fiturId,
+      date: new Date(),
     });
   } catch (e) {
     LogError(__dirname + __filename, e);
