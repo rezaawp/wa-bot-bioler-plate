@@ -1,4 +1,4 @@
-const { default: axios } = require("axios");
+// const { default: axios } = require("axios");
 
 module.exports = (rkwpbot) => {
   const CronJob = require("cron").CronJob;
@@ -12,12 +12,12 @@ module.exports = (rkwpbot) => {
   const job = new CronJob(
     cronExpression,
     async () => {
-      const res = await axios({
-        method: "get",
-        url: "https://mfarels.my.id/api/openai?text=saya%20cape,%20saya%20ingin%20bunuh%20diri,%20tolong%20berikan%20saya%20semangat%20hidup",
-      });
+      // const res = await axios({
+      //   method: "get",
+      //   url: "https://mfarels.my.id/api/openai?text=saya%20cape,%20saya%20ingin%20bunuh%20diri,%20tolong%20berikan%20saya%20semangat%20hidup",
+      // });
       rkwpbot.ev.emit("uangkas", {
-        message: res.data.result,
+        message: "Hai reza, selamat pagi. Ini adalah bot cron job",
         to: "628892732501",
       });
     },
@@ -29,12 +29,12 @@ module.exports = (rkwpbot) => {
   const job2 = new CronJob(
     cronExpression2,
     async () => {
-      const res = await axios({
-        method: "get",
-        url: "https://mfarels.my.id/api/openai?text=saya%20ingin%20tidur,%20berikan%20saya%20ucapan%20untuk%20selamat%20tidur",
-      });
+      // const res = await axios({
+      //   method: "get",
+      //   url: "https://mfarels.my.id/api/openai?text=saya%20ingin%20tidur,%20berikan%20saya%20ucapan%20untuk%20selamat%20tidur",
+      // });
       rkwpbot.ev.emit("uangkas", {
-        message: res.data.result,
+        message: "Selamat tidur reza. Ini adalah bot cron job",
         to: "628892732501",
       });
     },
