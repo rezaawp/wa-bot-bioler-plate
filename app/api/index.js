@@ -7,7 +7,7 @@ const db = require("./database/models");
 const PORT = 3000;
 
 const expressJsApp = ({ rkwpbot }) => {
-  app.use(morgan("dev"));
+  // app.use(morgan("dev"));
   app.use(express.json());
   app.use(
     express.urlencoded({

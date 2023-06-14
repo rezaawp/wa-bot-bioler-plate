@@ -29,8 +29,16 @@ const connectRkwpBot = async () => {
     generateHighQualityLinkPreview: true,
   });
 
+  require("./app/jobs/uangkas.job")(rkwpbot);
+
   rkwpbot.ev.on("from.api", (api) => {
     require("./app/api/handler/listen")(rkwpbot, api);
+  });
+
+  rkwpbot.ev.on("uangkas", async ({ message, to }) => {
+    await rkwpbot.sendMessage(to + "@s.whatsapp.net", {
+      text: message,
+    });
   });
 
   rkwpbot.ev.on("messages.upsert", (m) => {

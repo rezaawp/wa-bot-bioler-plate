@@ -771,6 +771,7 @@ module.exports = async ({
 
           for (const fitur of fiturs) {
             if (fitur.name === command) {
+              config.disableFiturs;
               require(join(rootDir, `app/fiturs/${fitur.id}_${command}.js`))(
                 dataMessage
               );
