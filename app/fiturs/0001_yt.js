@@ -1,4 +1,4 @@
-const logging = require('../../lib/logging');
+const logging = require("../../lib/logging");
 module.exports = async ({
   rkwpbot,
   m,
@@ -25,10 +25,41 @@ module.exports = async ({
   isLocationMessage,
 }) => {
   try {
+    const sendMessageWTyping = async (msg, jid) => {
+      await rkwpbot.presenceSubscribe(jid);
+      await delay(500);
+
+      await rkwpbot.sendPresenceUpdate("composing", jid);
+      await delay(1000);
+
+      await rkwpbot.sendPresenceUpdate("paused", jid);
+
+      await rkwpbot.sendMessage(jid, msg, {
+        quoted: bot,
+      });
+    };
+
+    await rkwpbot.sendMessage(from, {
+      react: {
+        key: bot.key,
+        text: "🔄",
+      },
+    });
+
+    await sendMessageWTyping(
+      {
+        text: "ini fitur tiktok yaa",
+      },
+      from
+    );
+
     return await rkwpbot.sendMessage(from, {
-      text: 'hello world',
+      react: {
+        key: bot.key,
+        text: "✅",
+      },
     });
   } catch (e) {
-    logging('error', 'ERROR FITUR yt', e);
+    logging("error", "ERROR FITUR yt", e);
   }
 };

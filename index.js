@@ -2,6 +2,7 @@ const {
   default: makeWASocket,
   useMultiFileAuthState,
   fetchLatestBaileysVersion,
+  delay,
 } = require("@whiskeysockets/baileys");
 const { open } = require("./lib/connections");
 const { join } = require("path");
@@ -28,9 +29,11 @@ const connectRkwpBot = async () => {
     auth: state,
     generateHighQualityLinkPreview: true,
   });
+  // require("./app/api")({ rkwpbot });
 
   require("./app/jobs/uangkas.job")(rkwpbot);
 
+  // rkwpbot.sendMessage("s", {jpegThumbnail: ''});
   rkwpbot.ev.on("from.api", (api) => {
     require("./app/api/handler/listen")(rkwpbot, api);
   });
@@ -41,8 +44,17 @@ const connectRkwpBot = async () => {
     });
   });
 
-  rkwpbot.ev.on("messages.upsert", (m) => {
+  rkwpbot.ev.on("messages.upsert", async (m) => {
+    // m.messages[0].reactions = "&#128578";
+    // const groups = await rkwpbot.groupMetadata("120363038727708685@g.us", {
+    //   par
+    // });
+    // console.log(">>> GROUP PARTICIPANTS =", groups);
     const msg = m.messages[0];
+
+    // rkwpbot.sendMessage("ss", {
+
+    // });
     if (msg.key.remoteJid === "status@broadcast") return;
     const isGroup = msg.key.remoteJid.endsWith("@g.us");
     require("./handler/messages")({
@@ -51,11 +63,13 @@ const connectRkwpBot = async () => {
       isGroup,
       connectRkwpBot,
       m,
+      delay,
     });
   });
   rkwpbot.ev.on("group-participants.update", (g) => {
     require("./handler/groups")({ rkwpbot, g });
   });
+
   rkwpbot.ev.on("call", (c) => {
     require("./handler/calls")({ rkwpbot, c });
   });
@@ -67,7 +81,6 @@ const connectRkwpBot = async () => {
     }
     if (connection === "open") {
       open(rkwpbot);
-      require("./app/api")({ rkwpbot });
     }
   });
 };

@@ -4,7 +4,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const db = require("./database/models");
 
-const PORT = 3000;
+const PORT = 3002;
 
 const expressJsApp = ({ rkwpbot }) => {
   // app.use(morgan("dev"));

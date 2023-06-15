@@ -18,6 +18,7 @@ module.exports = async ({
   isGroup,
   connectReybotWhatsapp,
   m,
+  delay,
 }) => {
   const bot = m.messages[0];
   try {
@@ -27,6 +28,9 @@ module.exports = async ({
     const contacts = JSON.parse(
       readFileSync(join(__dirname, "../database/contacts.json"))
     );
+
+    // membaca pesan user
+    await rkwpbot.readMessages([msg.key]);
 
     if (isGroup) {
       /*///////
@@ -38,11 +42,16 @@ module.exports = async ({
         const pushName = msg.pushName;
         saveUsers({ userId, name: bot.pushName });
         const groupId = msg.key.remoteJid;
+        logging("error", ">>> GROUP ID", groupId);
         let metadataGroup;
         let groupParticipants;
+        let groupSubject;
         try {
-          metadataGroup = await rkwpbot.groupMetadata(groupId);
-          groupParticipants = metadataGroup.participants.map((part) => part.id);
+          metadataGroup = await rkwpbot.groupMetadata(groupId); // mengambil info dari group
+          groupParticipants = metadataGroup.participants.map((part) => part.id); // mengambil semua member dari grup
+          groupSubject = metadataGroup.subject; // mengambil nama grup
+          // logging("error", ">>> G SUBJECT", groupSubject);
+          // logging("error", ">>> G PARTS", groupParticipants.length);
         } catch (err) {
           logging("error", "Error Get Metadata Group", err);
         }
@@ -633,6 +642,7 @@ module.exports = async ({
         saveUsers({ userId, name: bot.pushName });
         const pushName = msg.pushName;
         const fromMe = msg.key.fromMe;
+
         if (msg.message) {
           const msgTxt = msg.message.extendedTextMessage
             ? msg.message.extendedTextMessage.text
@@ -754,6 +764,7 @@ module.exports = async ({
             isQuotedSticker,
             isQuotedAudio,
             isLocationMessage,
+            delay,
           };
           // End Properti\
 
