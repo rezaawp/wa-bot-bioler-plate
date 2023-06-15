@@ -45,9 +45,6 @@ module.exports = async ({
       url: `https://mfarels.my.id/api/tiktokv4?url=${q}`,
     });
 
-    console.log(">>> LINK VIDE0 = ", "PENDING");
-    console.log(">>> LINK VIDE0 = ", res.data.result.video);
-
     await sendMessage({
       rkwpbot,
       msg: {
@@ -61,19 +58,6 @@ module.exports = async ({
     });
 
     return await reactMessage({ rkwpbot, from, bot, react: "✅" });
-    if (res.statusText === "OK") {
-      await rkwpbot.sendMessage(from, {
-        video: {
-          url: res.data.hasil.download_mp4_hd,
-        },
-        caption,
-      });
-    } else {
-      return await rkwpbot.sendMessage(
-        from,
-        "maaf ya, terjadi kesalahan di server yang membuat video tidak bisa di unduh"
-      );
-    }
   } catch (e) {
     logging("error", "ERROR FITUR tt", e);
   }
