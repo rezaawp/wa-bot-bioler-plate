@@ -1,8 +1,8 @@
 const { default: axios } = require("axios");
 const logging = require("../../lib/logging");
-const { caption } = require("../config");
-const sendMessage = require("../../lib/sendMessage");
-const reactMessage = require("../../lib/reactMessage");
+const { caption, warningIcon, prosesIcon, successIcon } = require("../config");
+const sendMessageHelper = require("../../lib/sendMessage");
+const reactMessageHelper = require("../../lib/reactMessage");
 module.exports = async ({
   rkwpbot,
   m,
@@ -29,15 +29,27 @@ module.exports = async ({
   isLocationMessage,
 }) => {
   try {
-    await reactMessage({ rkwpbot, from, bot, react: "🔄" });
+    const sendMessage = async (msg) => {
+      return await sendMessageHelper({ rkwpbot, from, bot, msg });
+    };
+
+    const reactMessage = async (react) => {
+      return await reactMessageHelper({ rkwpbot, from, bot, react });
+    };
 
     if (q == "") {
-      return await rkwpbot.sendMessage(from, {
-        text: "masukan dulu atuh linknya. baru bisa aku proses",
+      await sendMessage({
+        text: "masukin dulu atuh link nya",
       });
+
+      await reactMessage(warningIcon);
+      return;
     }
-    await rkwpbot.sendMessage(from, {
-      text: "tunggu sebentar yaa, video kamu lagi proses",
+
+    await reactMessage(prosesIcon);
+
+    await sendMessage({
+      text: "tunggu sebentar ya.. video kamu sedang proses",
     });
 
     const res = await axios({
@@ -46,18 +58,13 @@ module.exports = async ({
     });
 
     await sendMessage({
-      rkwpbot,
-      msg: {
-        video: {
-          url: res.data.result.video,
-        },
-        mimetype: "video/mp4",
+      video: {
+        url: res.data.result.video,
       },
-      bot,
-      from,
+      mimetype: "video/mp4",
     });
 
-    return await reactMessage({ rkwpbot, from, bot, react: "✅" });
+    return await reactMessage(successIcon);
   } catch (e) {
     logging("error", "ERROR FITUR tt", e);
   }

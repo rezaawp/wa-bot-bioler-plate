@@ -5,7 +5,7 @@ module.exports = (rkwpbot) => {
 
   // Menjadwalkan cron job untuk menjalankan pada setiap hari Senin dan Jumat pada jam 8 pagi (pukul 8:00)
   //   const cronExpression = "0 8 * * 1,5"; // pada setiap hari senin dan jumat
-  const cronExpression = "0 8 * * *";
+  const cronExpression = "22 16 * * *";
   const cronExpression2 = "0 21 * * *";
   const timeZone = "Asia/Jakarta";
 
@@ -18,7 +18,7 @@ module.exports = (rkwpbot) => {
       // });
       rkwpbot.ev.emit("uangkas", {
         message: "Hai reza, selamat pagi. Ini adalah bot cron job",
-        to: "628892732501",
+        to: "6285714148247",
       });
     },
     null,
@@ -35,7 +35,7 @@ module.exports = (rkwpbot) => {
       // });
       rkwpbot.ev.emit("uangkas", {
         message: "Selamat tidur reza. Ini adalah bot cron job",
-        to: "628892732501",
+        to: "6285714148247",
       });
     },
     null,

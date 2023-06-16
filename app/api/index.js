@@ -3,6 +3,7 @@ const app = express();
 const morgan = require("morgan");
 const cors = require("cors");
 const db = require("./database/models");
+const chrome = require("puppeteer");
 
 const PORT = 3001;
 

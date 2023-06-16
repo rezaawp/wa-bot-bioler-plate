@@ -33,6 +33,8 @@ file_path="$directory_fitur/${prefix_file}_${file_name}.js"
 
 # Membuat file dengan konten yang diinginkan
 echo "const logging = require('../../lib/logging');
+const sendMessageHelper = require('../../lib/sendMessage');
+const reactMessageHelper = require('../../lib/reactMessage');
 module.exports = async ({
   rkwpbot,
   m,
@@ -59,9 +61,18 @@ module.exports = async ({
   isLocationMessage,
 }) => {
   try {
-    return await rkwpbot.sendMessage(from, {
+    const sendMessage = async (msg) => {
+      return await sendMessageHelper({ rkwpbot, from, bot, msg });
+    };
+    const reactMessage = async (react) => {
+      return await reactMessageHelper({ rkwpbot, from, bot, react });
+    };
+
+    //** Start Code */
+    await sendMessage({
       text: 'hello world',
     });
+    //** End Code */
   } catch (e) {
     logging('error', 'ERROR FITUR ${file_name}', e);
   }
