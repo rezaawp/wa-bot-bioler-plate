@@ -2,7 +2,8 @@ const logging = require("../../lib/logging");
 const sendMessageHelper = require("../../lib/sendMessage");
 const reactMessageHelper = require("../../lib/reactMessage");
 const reelsdownloaderio = require("../../handler/fiturs/scrap/reeldownload");
-const { prosesIcon, successIcon } = require("../config");
+const { prosesIcon, successIcon, failIcon } = require("../config");
+const reactMessage = require("../../lib/reactMessage");
 
 module.exports = async ({
   rkwpbot,
@@ -58,6 +59,7 @@ module.exports = async ({
     await reactMessage(successIcon);
     //** End Code */
   } catch (e) {
+    await reactMessage(failIcon);
     logging("error", "ERROR FITUR ig", e);
   }
 };
