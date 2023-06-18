@@ -3,6 +3,10 @@ const sendMessageHelper = require("../../lib/sendMessage");
 const reactMessageHelper = require("../../lib/reactMessage");
 const { findPhoneNumbersInText } = require("libphonenumber-js");
 const nationalPhoneNumber = require("../../lib/phoneNumber/nationalPhoneNumber");
+const { whatsapp, menuMessage } = require("../config");
+const writeFile = require("../../lib/writeFile");
+const rootDir = require("../../lib/rootDir");
+const country = require("../../lib/phoneNumber/country");
 
 module.exports = async ({
   rkwpbot,
@@ -44,14 +48,15 @@ module.exports = async ({
     };
 
     //** Start Code */
-    const negaraPengirim = findPhoneNumbersInText("+" + from)[0].number.country;
+    const negaraPengirim = country(from);
     let noTarget;
     let message;
     const find = findPhoneNumbersInText(q);
 
     if (find.length > 0) {
-      noTarget = find[0].number.number;
-      message = q.split(q.slice(find[0].startsAt, find[0].endsAt + 1));
+      noTarget =
+        find[0].number.countryCallingCode + find[0].number.nationalNumber;
+      message = q.split(q.slice(find[0].startsAt, find[0].endsAt + 1))[1];
     } else {
       const nationalNumber = nationalPhoneNumber(args[0], negaraPengirim);
       noTarget = nationalNumber.err ? null : nationalNumber.phoneNumber;
@@ -85,14 +90,30 @@ module.exports = async ({
       });
     }
 
-    require("./../../handler/fiturs/menfess/menfess.fitur")(rkwpbot, {
-      noTarget,
-      message,
+    const target = noTarget + whatsapp;
+
+    const menfessData = require(rootDir + "database/menfess.json");
+
+    menfessData.push({
+      user1: from,
+      user2: target,
     });
 
-    await sendMessage({
-      text: "hello world",
+    writeFile({
+      location: "database/menfess.json",
+      contents: JSON.stringify([
+        {
+          user1: from,
+          user2: target,
+        },
+      ]),
     });
+
+    // mengirim pesan ke target
+    await rkwpbot.sendMessage(target, {
+      text: message,
+    });
+
     //** End Code */
   } catch (e) {
     logging("error", "ERROR FITUR menfess", e);

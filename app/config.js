@@ -8,7 +8,14 @@ class Config {
   prosesIcon = "🔄";
   warningIcon = "⚠️";
   successIcon = "✅";
+  failIcon = "❌";
   whatsapp = "@s.whatsapp.net";
+  menfess = {
+    id: {
+      ifMenfess:
+        "anda sedang menggunakan fitur menfess. silahkan ketik .stop untuk menggunakan fitur lain",
+    },
+  };
 }
 
 module.exports = new Config();

@@ -66,6 +66,7 @@ const connectRkwpBot = async () => {
 
     // });
     if (msg.key.remoteJid === "status@broadcast") return;
+    if (m.type !== "notify") return;
     const isGroup = msg.key.remoteJid.endsWith("@g.us");
     require("./handler/messages")({
       rkwpbot,

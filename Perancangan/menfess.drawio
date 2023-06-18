@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="wZ84RXo-G2QEInnGXPtj" name="Page-1">
-        <mxGraphModel dx="1683" dy="410" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1696" dy="396" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -129,7 +129,7 @@
                 <mxCell id="48" value="ev.on('messages.update')" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="835" y="770" width="155" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="96" style="edgeStyle=none;html=1;" edge="1" parent="1" source="50" target="86">
+                <mxCell id="96" style="edgeStyle=none;html=1;" parent="1" source="50" target="86" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="50" value="emit('menfess.read', {keyMsg})" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -150,7 +150,7 @@
                 <mxCell id="56" value="TRUE" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="1145" y="730" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="94" style="edgeStyle=none;html=1;" edge="1" parent="1" source="58" target="84">
+                <mxCell id="94" style="edgeStyle=none;html=1;" parent="1" source="58" target="84" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="58" value="update == 4&amp;nbsp;" style="rhombus;whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
@@ -195,7 +195,7 @@
                 <mxCell id="82" value="TRUE" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="1285" y="723" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="95" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="84" target="50">
+                <mxCell id="95" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="84" target="50" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="84" value="find cache menfess" style="rhombus;whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
@@ -213,16 +213,16 @@
                 <mxCell id="86" value="reactMessage(readIcon)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="1292.5" y="450" width="145" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="92" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="90" target="86">
+                <mxCell id="92" value="" style="edgeStyle=none;html=1;" parent="1" source="90" target="86" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="93" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="90" target="86">
+                <mxCell id="93" value="" style="edgeStyle=none;html=1;" parent="1" source="90" target="86" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="90" value="TRUE" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="1410" y="510" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="91" value="" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="53" target="75">
+                <mxCell id="91" value="" style="edgeStyle=none;html=1;endArrow=none;" parent="1" source="53" target="75" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1150" y="760" as="sourcePoint"/>
                         <mxPoint x="1150" y="630" as="targetPoint"/>
@@ -230,6 +230,9 @@
                 </mxCell>
                 <mxCell id="75" value="find cache menfess" style="rhombus;whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="1075" y="650" width="150" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="97" value="AKAN BERHENTI SECARA OTOMATIS KETIKA SUDAH 24 JAM" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="670" y="540" width="380" height="70" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>

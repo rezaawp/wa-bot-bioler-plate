@@ -11,6 +11,7 @@ const saveUsers = require("../lib/saveUsers");
 const config = require("../app/config");
 const rootDir = require("../lib/rootDir");
 const allFiturs = require("../lib/allFiturs");
+const reactMessage = require("../lib/reactMessage");
 
 module.exports = async ({
   rkwpbot,
@@ -768,6 +769,56 @@ module.exports = async ({
           };
           // End Properti\
 
+          const runFitur = () => {
+            const fiturs = allFiturs();
+
+            // console.log(">>>! fiturs nihhh = ", fiturs);
+
+            for (const fitur of fiturs) {
+              if (fitur.name === command) {
+                config.disableFiturs;
+
+                require(join(rootDir, `app/fiturs/${fitur.id}_${command}.js`))(
+                  dataMessage
+                );
+                dataMessage.fiturId = fitur.id;
+                require("./fiturs/data.fitur")(dataMessage);
+              }
+            }
+          };
+
+          // check menfess
+          const checkMenfess = require("./fiturs/menfess/check.fitur")(
+            dataMessage
+          );
+
+          if (checkMenfess.isTrue) {
+            if (command && command !== "stop") {
+              await reactMessage({
+                rkwpbot,
+                from,
+                bot,
+                react: config.failIcon,
+              });
+
+              return await rkwpbot.sendMessage(
+                from,
+                {
+                  text: config.menfess.id.ifMenfess,
+                },
+                { quoted: bot }
+              );
+            }
+
+            if (command === "stop") {
+              return runFitur();
+            }
+
+            dataMessage.target = checkMenfess.target;
+            return require("./fiturs/menfess/menfess.fitur")(dataMessage);
+          }
+          // check end check menfess
+
           if (!command)
             return logging(
               "error",
@@ -775,21 +826,7 @@ module.exports = async ({
               `Perintah ${body} tidak dapat ditemukan`
             );
           logging("primary", "COMMAND", command);
-
-          const fiturs = allFiturs();
-
-          // console.log(">>>! fiturs nihhh = ", fiturs);
-
-          for (const fitur of fiturs) {
-            if (fitur.name === command) {
-              config.disableFiturs;
-              require(join(rootDir, `app/fiturs/${fitur.id}_${command}.js`))(
-                dataMessage
-              );
-              dataMessage.fiturId = fitur.id;
-              require("./fiturs/data.fitur")(dataMessage);
-            }
-          }
+          runFitur();
         }
       }
     }
