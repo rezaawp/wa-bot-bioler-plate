@@ -30,7 +30,7 @@ module.exports = async ({
     );
 
     // membaca pesan user
-    await rkwpbot.readMessages([msg.key]);
+    // await rkwpbot.readMessages([msg.key]);
 
     if (isGroup) {
       /*///////

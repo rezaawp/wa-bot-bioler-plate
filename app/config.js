@@ -8,6 +8,7 @@ class Config {
   prosesIcon = "🔄";
   warningIcon = "⚠️";
   successIcon = "✅";
+  whatsapp = "@s.whatsapp.net";
 }
 
 module.exports = new Config();

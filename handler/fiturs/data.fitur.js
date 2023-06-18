@@ -54,12 +54,12 @@ module.exports = async ({
       isLocationMessage,
       fiturId,
     };
-    await Message.create({
-      message: JSON.stringify(data),
-      user_id: from,
-      fitur_id: fiturId,
-      date: new Date(),
-    });
+    // await Message.create({
+    //   message: JSON.stringify(data),
+    //   user_id: from,
+    //   fitur_id: fiturId,
+    //   date: new Date(),
+    // });
   } catch (e) {
     LogError(__dirname + __filename, e);
   }

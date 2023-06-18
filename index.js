@@ -44,6 +44,16 @@ const connectRkwpBot = async () => {
     });
   });
 
+  rkwpbot.ev.on("message-receipt.update", (key, receipt) => {
+    console.log(">> message-receipt.update && KEY = ", key);
+    console.log(">> message-receipt.update && receipt = ", receipt);
+  });
+
+  rkwpbot.ev.on("messages.update", (key, receipt) => {
+    console.log(">> message.update && KEY = ", key);
+    console.log(">> message.update && update = ", receipt);
+  });
+
   rkwpbot.ev.on("messages.upsert", async (m) => {
     // m.messages[0].reactions = "&#128578";
     // const groups = await rkwpbot.groupMetadata("120363038727708685@g.us", {
