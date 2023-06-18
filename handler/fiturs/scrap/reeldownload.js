@@ -1,11 +1,10 @@
 const cheerio = require("cheerio");
 const puppeteer = require("puppeteer");
+const { chrome } = require("../../../app/config");
+require("dotenv").config();
 
 const reelsdownloaderio = async (link) => {
-  const browser = await puppeteer.launch({
-    headless: false,
-    args: ["--no-sandbox"],
-  });
+  const browser = await puppeteer.launch(chrome[process.env.NODE_ENV]);
   try {
     const page = await browser.newPage();
     await page.goto("https://reelsdownloader.io/");

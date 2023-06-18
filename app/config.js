@@ -16,6 +16,13 @@ class Config {
         "anda sedang menggunakan fitur menfess. silahkan ketik .stop untuk menggunakan fitur lain",
     },
   };
+  chrome = {
+    production: {
+      headless: false,
+      args: ["--no-sandbox", "--headless"],
+    },
+    development: { headless: false, args: ["--no-sandbox"] },
+  };
 }
 
 module.exports = new Config();
