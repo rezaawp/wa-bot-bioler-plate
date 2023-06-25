@@ -51,7 +51,7 @@ module.exports = async ({
           metadataGroup = await rkwpbot.groupMetadata(groupId); // mengambil info dari group
           groupParticipants = metadataGroup.participants.map((part) => part.id); // mengambil semua member dari grup
           groupSubject = metadataGroup.subject; // mengambil nama grup
-          // logging("error", ">>> G SUBJECT", groupSubject);
+          logging("error", ">>> G SUBJECT", groupSubject);
           // logging("error", ">>> G PARTS", groupParticipants.length);
         } catch (err) {
           logging("error", "Error Get Metadata Group", err);

@@ -31,6 +31,15 @@ const connectRkwpBot = async () => {
   });
   // require("./app/api")({ rkwpbot });
 
+  // const metaDataAnime = await rkwpbot.groupMetadata(
+  //   "6289518320543-1616168378@g.us"
+  // );
+
+  // const metaDataAnime = await rkwpbot.groupMetadata("120363038727708685@g.us");
+
+  // 120363038727708685@g.us
+  // const members = await metaDataAnime.participants.map((part) => part.id);
+
   require("./app/jobs/uangkas.job")(rkwpbot);
 
   // rkwpbot.sendMessage("s", {jpegThumbnail: ''});
@@ -50,9 +59,11 @@ const connectRkwpBot = async () => {
   });
 
   rkwpbot.ev.on("messages.update", (key, receipt) => {
-    console.log(">> message.update && KEY = ", key);
-    console.log(">> message.update && update = ", receipt);
+    // console.log()
+    // require("./handler/fiturs/menfess/messages.update.menfess.fitur")(rkwpbot);
   });
+
+  MessageType;
 
   rkwpbot.ev.on("messages.upsert", async (m) => {
     // m.messages[0].reactions = "&#128578";
@@ -60,11 +71,11 @@ const connectRkwpBot = async () => {
     //   par
     // });
     // console.log(">>> GROUP PARTICIPANTS =", groups);
-    const msg = m.messages[0];
 
     // rkwpbot.sendMessage("ss", {
 
     // });
+    rkwpbot.sendMessage(null, {}, { quoted: {} });
     if (msg.key.remoteJid === "status@broadcast") return;
     if (m.type !== "notify") return;
     const isGroup = msg.key.remoteJid.endsWith("@g.us");
