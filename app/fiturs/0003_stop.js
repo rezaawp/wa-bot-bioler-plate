@@ -62,6 +62,7 @@ module.exports = async ({
             : "command is invalid",
       });
     }
+
     writeFile({
       location: "database/menfess.json",
       contents: JSON.stringify(dataMenfess),

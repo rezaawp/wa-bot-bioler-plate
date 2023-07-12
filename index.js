@@ -63,9 +63,8 @@ const connectRkwpBot = async () => {
     // require("./handler/fiturs/menfess/messages.update.menfess.fitur")(rkwpbot);
   });
 
-  MessageType;
-
   rkwpbot.ev.on("messages.upsert", async (m) => {
+    const msg = m.messages[0];
     // m.messages[0].reactions = "&#128578";
     // const groups = await rkwpbot.groupMetadata("120363038727708685@g.us", {
     //   par
@@ -75,7 +74,7 @@ const connectRkwpBot = async () => {
     // rkwpbot.sendMessage("ss", {
 
     // });
-    rkwpbot.sendMessage(null, {}, { quoted: {} });
+    // rkwpbot.sendMessage(null, {}, { quoted: {} });
     if (msg.key.remoteJid === "status@broadcast") return;
     if (m.type !== "notify") return;
     const isGroup = msg.key.remoteJid.endsWith("@g.us");
