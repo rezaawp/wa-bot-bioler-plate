@@ -34,7 +34,7 @@ module.exports = async ({
       url: "http://localhost:8000/api/ig/get-media-photo?link=" + q,
     });
 
-    await ev.sendMessageVideo({ url: res.data.media_url });
+    await ev.sendMessageImage({ url: res.data.media_url });
     //** End Code */
   } catch (e) {
     logging("error", "ERROR FITUR ifoto : " + __dirname + __filename, e);
