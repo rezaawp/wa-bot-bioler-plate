@@ -71,9 +71,7 @@ const connectRkwpBot = async () => {
     // });
     // console.log(">>> GROUP PARTICIPANTS =", groups);
 
-    // rkwpbot.sendMessage("ss", {
-
-    // });
+    // rkwpbot.sendMessage("ss", {});
     // rkwpbot.sendMessage(null, {}, { quoted: {} });
     if (msg.key.remoteJid === "status@broadcast") return;
     if (m.type !== "notify") return;
