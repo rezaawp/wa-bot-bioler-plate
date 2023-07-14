@@ -41,7 +41,7 @@ module.exports = async ({
     }
     if (!q) {
       return await ev.sendMessageText(
-        "fitur ini memungkinkan kamu untuk melihat akun yang tidak mem follback akun kamu.\n\nsyarat menggunakan fitur ini : akun TIDAK BOLEH PRIVATE\n\nperintah : \n.cekfollower *username* *followers* *followings*\n\nContoh : \n.cekfollower cristiano 100 100"
+        "fitur ini memungkinkan kamu untuk melihat akun yang tidak mem follback akun kamu.\n\nsyarat menggunakan fitur ini : akun TIDAK BOLEH PRIVATE\n\nperintah : \n.cekfollower *username* *followers* *followings*\n\ncontoh : \n.cekfollower cristiano 100 100\n\n*note* : followers dan following yang kamu masukan akan menentukan keakuratan hasilnya. jadi masukan jumlah following dan followers saat ini"
       );
     }
 
@@ -71,7 +71,7 @@ module.exports = async ({
     let resultText = "LIST USERS NOT FOLLBACK YOUR ACCOUNT\n\n";
 
     for (const user of res.data.not_follback_users) {
-      resultText += `Username : ${user.username}\n Fullname : ${user.full_name}\n------------------------------\n`;
+      resultText += `Username : ${user.username}\nFullname : ${user.full_name}\n------------------------------\n`;
     }
 
     fs.writeFileSync(`./database/acc_${username}.txt`, resultText);
@@ -79,8 +79,6 @@ module.exports = async ({
       `./database/acc_${username}.json`,
       JSON.stringify(res.data.not_follback_users)
     );
-
-    // require("./../../database/");
 
     await ev.sendMessageText(resultText);
     await ev.sendMessage({
@@ -101,7 +99,9 @@ module.exports = async ({
 
     //** End Code */
   } catch (e) {
-    await ev.sendMessageText(JSON.stringify(e));
+    await ev.sendMessageText(
+      "ERROR : pastikan kamu memasukan sesuai dengan format dan username tidak boleh typo"
+    );
     logging("error", "ERROR FITUR cekfollower : " + __dirname + __filename, e);
   }
 };
