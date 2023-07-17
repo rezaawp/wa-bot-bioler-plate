@@ -34,7 +34,7 @@ module.exports = async ({
   try {
     //** Start Code */
     await ev.reactMessage(prosesIcon);
-    return ev.sendMessage("hayo, gaboleh gitu");
+    return ev.sendMessageText("hayo, gaboleh gitu");
     return await ev.sendMessage({
       video: {
         url: "http://porngif.cz/gif/ze%20zadu/0178.gif",

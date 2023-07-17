@@ -54,12 +54,12 @@ module.exports = async ({
 
     const res = await axios({
       method: "get",
-      url: `https://mfarels.my.id/api/tiktokv4?url=${q}`,
+      url: `https://api.akuari.my.id/downloader/tiktok3?link=${q}`,
     });
 
     await sendMessage({
       video: {
-        url: res.data.result.video,
+        url: res.data.hasil.download_mp4_hd,
       },
       mimetype: "video/mp4",
     });
