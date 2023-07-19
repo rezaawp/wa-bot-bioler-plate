@@ -14,8 +14,8 @@ function convertFont(text) {
   let result = "";
   text = text.split("");
   for (const t of text) {
-    if (t === " ") {
-      result += " ";
+    if (fonts[t] === undefined) {
+      result += t;
     } else {
       result += fonts[t];
     }
