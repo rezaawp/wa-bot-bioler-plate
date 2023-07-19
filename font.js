@@ -1,4 +1,4 @@
-const text = "ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ";
+const text = "𝗔𝗕𝗖𝗗𝗘𝗙𝗚𝗛𝗜𝗝𝗞𝗟𝗠𝗡𝗢𝗣𝗤𝗥𝗦𝗧𝗨𝗩𝗪𝗫𝗬𝗭";
 const textNormal = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 const fontBaru = text.split("");
