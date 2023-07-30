@@ -35,7 +35,7 @@ module.exports = async ({
 
     const username = args[0];
 
-    if (username === "rezaawp7") {
+    if (username === "rezaawp7" && from !== "6285714148247@s.whatsapp.net") {
       await ev.reactMessage(failIcon);
       return await ev.sendMessageText("gaboleh kepo sama ig owner ah wkwk");
     }
