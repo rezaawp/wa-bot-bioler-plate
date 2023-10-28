@@ -9,3 +9,6 @@ JIKA DATABASE SUDAH BANYAK RECORD NYA, DAN INGIN UPDATE FITUR :
 ```
 ./addfitur namafitur 
 ```
+
+## Direcotory fitur
+./app/fiturs/*
