@@ -40,7 +40,7 @@ const connectRkwpBot = async () => {
   // 120363038727708685@g.us
   // const members = await metaDataAnime.participants.map((part) => part.id);
 
-  require("./app/jobs/uangkas.job")(rkwpbot);
+  // require("./app/jobs/uangkas.job")(rkwpbot);
 
   // rkwpbot.sendMessage("s", {jpegThumbnail: ''});
   rkwpbot.ev.on("from.api", (api) => {
